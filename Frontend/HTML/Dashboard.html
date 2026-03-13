@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Redes</title>
+    <link rel="stylesheet" href="/Frontend/CSS/Dashboard.CSS">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <!-- HEADER -->
+            <div class="header-sidebar">
+                <h2>Gestión de Redes</h2>
+                
+                <div class="user-info">
+                  <!-- PERFIL DE USUARIO -->
+                  <li class="user-profile" data-target="perfil"> <img src="https://api.iconify.design/material-symbols:account-circle-outline.svg?color=%238a8a8a" 
+                    alt="Perfil Icon"> Perfil </li>
+                </div>
+            </div>
+
+            <!-- MENU -->
+            <nav class="main-menu">
+                <h3>Menú Principal</h3>
+                <ul>
+                    
+                    <li class="menu-item" data-target="tareas">
+                        <img src="https://api.iconify.design/material-symbols:assignment-outline.svg?color=%238a8a8a" alt="Tareas Icon">
+                        Lista de Tareas
+                    </li>
+                    <li class="menu-item" data-target="historial">
+                        <img src="https://api.iconify.design/material-symbols:history.svg?color=%238a8a8a" alt="Historial Icon">
+                        Historial de Actividad
+                    </li>
+                    <li class="menu-item" data-target="categorias">
+                         <img src="https://api.iconify.design/material-symbols:category-outline.svg?color=%238a8a8a" alt="Categorias Icon">
+                        Categorías
+                    </li>
+                    <li class="menu-item" data-target="sitios">
+                        <img src="https://api.iconify.design/material-symbols:location-on-outline.svg?color=%238a8a8a" alt="Sitios Icon">
+                        Sitios Remotos
+                    </li>
+                    <li class="menu-item active" data-target="inventario">
+                        <img src="https://api.iconify.design/material-symbols:inventory-2-outline.svg?color=%238a8a8a" alt="Inventario Icon">
+                        Inventario de Materiales
+                    </li>
+            </ul>
+            </nav>
+        </div>
+        
+        <div class="main-content">
+  <!-- Perfil de Usuario -->
+  <div id="perfil" class="content-section">
+    <h1>Mi Perfil</h1>
+
+  <div class="card">
+    <h2>Información personal</h2>
+
+    <div class="form-row">
+      <input type="text" id="perfilNombre" placeholder="Nombre">
+      <input type="text" id="perfilApellidoP" placeholder="Apellido paterno">
+    </div>
+
+    <div class="form-row">
+      <input type="text" id="perfilApellidoM" placeholder="Apellido materno">
+      <input type="text" id="perfilTelefono" placeholder="Teléfono">
+    </div>
+
+    <input type="email" id="perfilCorreo" placeholder="Correo electrónico">
+
+    <button id="guardarPerfilBtn" class="btn btn-primary">Guardar cambios</button>
+  
+    <div class="card">
+    <h2>Cambiar contraseña</h2>
+
+    <div class="form-row">
+      <input type="password" id="passActual" placeholder="Contraseña actual">
+    </div>
+
+    <div class="form-row">
+      <input type="password" id="passNueva" placeholder="Nueva contraseña">
+      <input type="password" id="passConfirmar" placeholder="Confirmar nueva contraseña">
+    </div>
+
+    <button id="cambiarPasswordBtn" class="btn btn-primary">
+      Cambiar contraseña
+    </button>
+  </div>
+  </div>
+</div>
+
+  <!-- Inventario -->
+  <div id="inventario" class="content-section active">
+    <h1>Inventario de Materiales</h1>
+    <button id="addMaterialBtn" class="btn btn-secondary">+ Agregar Nuevo Material </button>
+
+  <div class="card add-material-card">
+  <h2>Agregar Nuevo Material</h2>
+
+  <!-- FILA 1: Dispositivo + botones -->
+<div class="dispositivo-row">
+  <select id="dispositivoSelect" class="styled-select">
+    <option value=""> Selecciona Dispositivo </option>
+  </select>
+<!-- Boton agregar un nuevo dispositivo-->
+  <button type="button" id="btnAgregarDispositivo" class="btn btn-secondary">
+    + Agregar nuevo dispositivo
+  </button>
+<!-- Boton administrar dispositivos-->
+  <button type="button" id="btnAdministrarDispositivos" class="btn btn-secondary">
+    ⚙ Administrar Dispositivos
+  </button>
+</div>
+
+<!-- FILA 2: Marca + Modelo (MISMO NIVEL) -->
+<div class="form-row">
+  <input type="text" id="marcaMaterial" placeholder="Marca">
+  <input type="text" id="modeloMaterial" placeholder="Modelo">
+</div>
+
+<!-- MODAL: NUEVO DISPOSITIVO -->
+<div id="nuevoDispositivoModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button" id="closeNuevoDispositivoModal">&times;</span>
+
+    <h2>Agregar nuevo dispositivo</h2>
+
+    <label for="nuevoNombreDispositivo">Nombre del dispositivo</label>
+    <input type="text" id="nuevoNombreDispositivo" placeholder="Ej. Router, Switch, AP..." />
+
+    <button id="guardarNuevoDispositivoBtn" class="btn btn-primary">
+      Guardar
+    </button>
+  </div>
+</div>
+
+<!-- MODAL: ADMINISTRAR DISPOSITIVOS -->
+<div id="adminDispositivosModal" class="modal">
+  <div class="modal-content modal-admin">
+    <span class="close-button" id="closeAdminDispositivosModal">&times;</span>
+
+    <h2>Administrar dispositivos</h2>
+
+    <div class="admin-toolbar">
+      <input type="text" id="adminDispositivosSearch" placeholder="Buscar dispositivo..."  autocomplete="off">
+      <button type="button" id="adminDispositivosRefresh" class="btn-admin">Actualizar</button>
+    </div>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Dispositivo</th>
+            <th class="col-acciones">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="adminDispositivosTbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: VISOR DE IMAGEN (CLICK EN MINIATURA) -->
+<div id="imageViewerModal" class="modal">
+  <div class="modal-content" style="width:min(920px, 94vw); max-height:90vh;">
+    <span class="close-button" id="closeImageViewerModal">&times;</span>
+    <h2 style="margin-top:0;">Vista previa</h2>
+
+    <div style="display:flex; justify-content:center;">
+      <img id="imageViewerImg"
+           src=""
+           alt="Vista previa"
+           style="max-width:100%; max-height:70vh; border-radius:14px; border:1px solid #e5e7eb;">
+    </div>
+  </div>
+</div>
+
+  <div class="form-row">
+  <input type="text" id="numeroSerieMaterial" placeholder="Número de Serie">
+  <input type="text" id="numeroInventarioMaterial" placeholder="Número de Inventario">
+</div>
+
+  <textarea id="descripcionMaterial" placeholder="Descripción / Ubicación (Opcional)"></textarea>
+
+  <div class="form-row">
+    <input type="file" id="imagenMaterial" accept="image/*">
+  </div>
+
+  <button id="guardarMaterialBtn" class="btn btn-primary">Guardar Material</button>
+</div>
+
+  <div class="card current-inventory-card">
+    <h2>Inventario Actual</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>DISPOSITIVO</th>
+            <th>MARCA</th>
+            <th>MODELO</th>
+            <th>NÚM. SERIE</th>
+            <th>NÚM. INVENTARIO</th>
+            <th>DESCRIPCIÓN</th>
+            <th>IMAGEN</th>
+            <th>ACCIONES</th>
+          </tr>
+        </thead>
+
+                      <tbody id="inventarioTableBody"></tbody>
+                  </table>
+                </div>
+            </div>
+
+            <div id="tareas" class="content-section">
+                <h1>Lista de Tareas Pendientes</h1>
+
+                <div class="card add-task-card">
+                    <h2>Agregar Nueva Tarea</h2>
+                    <div class="form-row tarea-row">
+                    <input type="text" id="descripcionTarea" placeholder="Descripción de la tarea (e.g., Instalar router)">
+                    <button id="guardarTareaBtn" class="btn btn-primary"> Guardar Tarea </button>
+                </div>
+                </div>
+
+                <div class="card task-list-card">
+                    <h2>Tareas Pendientes</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>DESCRIPCIÓN</th>
+                                <th>ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tareasTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="historial" class="content-section">
+                <h1>Historial de Actividad</h1>
+                <div class="card activity-history-card">
+                    <h2>Tareas Completadas</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>DESCRIPCIÓN</th>
+                                <th>FECHA COMPLETADA</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historialTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+  <div id="categorias" class="content-section">
+    <h1>Categorías</h1>
+
+    <div class="card">
+      <h2>Agregar nuevo Lugar</h2>
+    <div class="form-row categoria-row">
+      <input type="text" id="nombreCategoria" placeholder="Nombre de la categoría">
+      <button id="guardarCategoriaBtn" class="btn btn-primary">Guardar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Listado de Lugares</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>NOMBRE</th>
+          <th>ACCIONES</th>
+        </tr>
+      </thead>
+      <tbody id="categoriasTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="sitios" class="content-section">
+
+  <div class="title-bar">
+    <h1 class="page-title">Sitios Remotos</h1>
+
+    <div class="search-box">
+      <input type="text" id="sitiosSearchInput" placeholder="Buscar..." />
+    </div>
+  </div>
+
+  <!-- BOTÓN PARA MOSTRAR / OCULTAR -->
+  <button id="toggleNuevoSitioBtn" class="btn btn-secondary" style="margin-bottom:15px;">
+    + Nuevo sitio
+  </button>
+
+  <!-- FORMULARIO (OCULTO) -->
+  <div class="card oculto" id="nuevoSitioCard">
+    <h2>Agregar nuevo sitio</h2>
+
+    <div class="form-row">
+      <input type="text" id="sitioNombre" placeholder="Nombre del sitio">
+      <select id="sitioCategoria"></select>
+    </div>
+
+    <div class="form-row">
+      <input type="text" id="sitioURLMaps" placeholder="URL Google Maps (opcional)">
+
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label for="sitioFechaVisita">Fecha de visita</label>
+        <input type="date" id="sitioFechaVisita">
+      </div>
+
+      <input type="text" id="sitioActivo" placeholder="Activo (SI/NO)">
+    </div>
+
+    <div class="form-row">
+      <input type="text" id="sitioEquipo" placeholder="Equipo instalado">
+      <input type="text" id="sitioAnchoBanda" placeholder="Ancho de banda">
+      <input type="text" id="sitioSSIDPass" placeholder="SSID / Password">
+      <input type="text" id="sitioContacto" placeholder="Contacto (opcional)">
+      <input type="text" id="sitioTelefono" placeholder="Teléfono (opcional)">
+    </div>
+
+    <button id="guardarSitioBtn" class="btn btn-primary">Guardar Sitio</button>
+  </div>
+
+  <div class="card">
+    <h2>Listado de sitios</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>SITIO</th>
+          <th>CATEGORÍA</th>
+          <th>MAPS</th>
+          <th>VISITA</th>
+          <th>ACTIVO</th>
+          <th>EQUIPO</th>
+          <th>ANCHO BANDA</th>
+          <th>SSID / PASS</th>
+          <th>CONTACTO</th>
+          <th>TELÉFONO</th>
+          <th>ACCIONES</th>
+        </tr>
+      </thead>
+      <tbody id="sitiosTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+    <!-- Modal Editar Material -->
+     <div id="editMaterialModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button">&times;</span>
+    <h2>Editar Material</h2>
+
+    <input type="hidden" id="editMaterialId">
+
+    <label>Dispositivo</label>
+    <select id="editDispositivoSelect" class="styled-select"></select>
+
+    <label>Marca</label>
+    <input type="text" id="editMarcaMaterial" placeholder="Marca">
+
+    <label>Modelo</label>
+    <input type="text" id="editModeloMaterial" placeholder="Modelo">
+
+    <label>Número de Serie</label>
+    <input type="text" id="editNumeroSerieMaterial" placeholder="Número de Serie">
+
+    <label>Número de Inventario</label>
+    <input type="text" id="editNumeroInventarioMaterial" placeholder="Número de Inventario">
+
+    <!-- Descripción / Ubicación -->
+    <label>Descripción / Ubicación</label>
+    <textarea id="editDescripcionMaterial"></textarea>
+
+    <!-- Imagen actual -->
+    <label style="margin-top:15px;">Imagen actual</label>
+    <img id="previewImagenActual"
+      src=""
+      alt="Imagen actual"
+      style="width:150px; height:auto; border-radius:6px; display:none; margin-bottom:10px;"
+    >
+<!-- Cambiar imagen -->
+<label>Cambiar imagen</label>
+<input 
+  type="file"
+  id="editImagenMaterial"
+  accept="image/*"
+>
+    <button id="updateMaterialBtn" class="btn btn-primary">
+      Actualizar Material
+    </button>
+  </div>
+</div>
+
+    <div id="editTaskModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Editar Tarea</h2>
+            <input type="hidden" id="editTaskId">
+            <label for="editDescripcionTarea">Descripción de la Tarea:</label>
+            <input type="text" id="editDescripcionTarea">
+            <button id="updateTaskBtn" class="btn btn-primary">Actualizar Tarea</button>
+        </div>
+    </div>
+
+    <div id="editCategoriaModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Editar Categoría</h2>
+             <input type="hidden" id="editCategoriaId">
+               <label>Nombre</label>
+                <input type="text" id="editNombreCategoria">
+                <button id="updateCategoriaBtn" class="btn btn-primary">Actualizar</button>
+            </div>
+        </div>
+
+        <div id="editSitioModal" class="modal">
+            <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Editar Sitio</h2>
+             <input type="hidden" id="editSitioId">
+             <label>Sitio</label>
+            <input type="text" id="editSitioNombre">
+
+             <label>Categoría</label>
+              <select id="editSitioCategoria"></select>
+
+             <label>URL Maps</label>
+              <input type="text" id="editSitioURLMaps">
+
+             <label>Fecha de visita</label>
+              <input type="date" id="editSitioFechaVisita">
+
+             <label>Activo</label>
+              <input type="text" id="editSitioActivo" placeholder="SI / NO">
+
+             <label>Equipo instalado</label>
+              <input type="text" id="editSitioEquipo">
+
+             <label>Ancho de banda</label>
+              <input type="text" id="editSitioAnchoBanda">
+
+             <label>SSID / Password</label>
+              <input type="text" id="editSitioSSIDPass">
+             
+             <label>Contacto</label>
+              <input type="text" id="editSitioContacto">
+
+             <label>Teléfono</label>
+              <input type="text" id="editSitioTelefono">
+
+            <button id="updateSitioBtn" class="btn btn-primary">Actualizar</button>
+        </div>
+    </div>
+
+    <script src="/Frontend/JS/Dashboard.js"></script>
+</body>
+</html>

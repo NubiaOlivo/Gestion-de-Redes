@@ -1,0 +1,63 @@
+<DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="/Frontend/CSS/Registro.CSS">
+</head>
+<body>
+    <div class="register-container">
+        <h2>Crear una cuenta</h2>
+        <form id="registroForm">
+            
+            <!-- Nombres -->
+            <div class="input-group">
+                <label for="nombres">Nombres</label>
+                <input type="text" id="nombres" placeholder="Ingresa tus nombres" required>
+            </div>
+
+            <!-- Apellidos -->
+            <div class="input-group">
+                <label for="apellidos">Apellidos</label>
+                <input type="text" id="apellidos" placeholder="Ingresa tus apellidos" required>
+            </div>
+
+            <!-- Correo -->
+            <div class="input-group">
+                <label for="correo">Correo electrónico</label>
+                <input type="email" id="correo" placeholder="Ingresa tu correo" required>
+            </div>
+
+            <!-- Teléfono -->
+            <div class="input-group">
+                <label for="telefono">Teléfono</label>
+                <input type="text" id="telefono" placeholder="Ingresa tu número de teléfono" required>
+            </div>
+         
+            <!-- Seleccionar sitio -->
+            <label>Sitio / Dependencia</label>
+            <select id="IdSitio" name="IdSitio" required>
+             <option value="">Seleccione un sitio</option>
+            </select>
+
+            <!-- Contraseña -->
+            <div class="input-group">
+                <label for="contrasena">Contraseña</label>
+                <input type="password" id="contrasena" placeholder="Crea una contraseña" required>
+            </div>
+
+            <!-- Confirmar contraseña -->
+            <div class="input-group">
+                <label for="confirmar">Confirmar contraseña</label>
+                <input type="password" id="confirmar" placeholder="Confirma tu contraseña" required>
+            </div>
+
+            <button type="submit">Registrarse</button>
+            <p id="mensajeError" class="mensaje-error"></p>
+            <p class="link-login">¿Ya tienes una cuenta? <a href="login.html">Inicia sesión aquí</a></p>
+        </form>
+    </div>
+    <script src="/Frontend/JS/Registro.js"></script>
+</body>
+</html>
